@@ -1,0 +1,76 @@
+Eristal kids' skill trees (to be implemented in the future)
+
+Rose
+Barbarian-all damage and tank, double axe
+(Full frontal offense, hp tank/resistances)
+Fighter-mixed weapons, boomerang, sling, sword, hand hammer, dagger
+(Weapons, item swapping/action economy)
+Monk-battle maneuvers, unarmed strikes
+(Unarmed synergies, enemy manipulation/battle maneuvers)
+
+Oswald
+Paladin-tank and melee, smites and passive buffs to self, mace, large war hammer
+(Smites/offense, passive auras/tanking)
+Alchemist-potions and poisons
+(Damage/debuffs, buffs/support)
+Cleric-healing and support spells
+(Healing, spell support)
+
+Elijah
+Abjuration-defense, deflection, dispelling
+(Damage reduction/deflection, cleansing effects/dispelling/enemy disruption)
+Evocation-all offense and explosions, damage and effects
+(Damage spells/AOE, extra effects)
+Enchanter-enchants skills or gives buffs, maybe bladesinger/aegis as well
+(magic weapons/armor, ally/enemy enchantments)
+
+Stats
+HP
+Power (damage increase)
+Defense (damage reduction)
+Speed (determines turn order)
+Luck (crit chance and reduces enemy crit chance)
+
+Starting stats: 5, 1, 1, 1, 1
+(Level up increases health by 1)
+(Also get 3 points to spend wherever each level)
+
+Damage Formula
+(weaponMultiplier * selfPower) - enemyDefense
+
+Crit Formula (this has changed, look in the battle Attack function)
+levelDifference = enemyLevel - playerLevel
+baseCrit + selfLuck * (selfLuck / (enemyLuck + levelDifference))
+#levelDifference is positive if the enemy is a higher level
+#Crit modifies attacker's damage
+
+Speed
+Turn meter = 10/50/100/500 (based on highest speed value, only for reducing calculations needed)
+Each tick entity's speed is added, once it reaches the turn meter it takes a turn
+Turn ties are broken based on highest turn meter value, and then highest speed stat, if both are the same then broken based on battle position (top/left entities go first)
+
+XP
+levelDifference = enemyLevel - playerLevel
+enemyXP * (1 + (levelDifference / 10))
+#Each difference in level modifies xp by 10%
+#levelDifference is positive if the enemy is a higher level
+
+Current to do list:
+Change "Effect Success" to just be for "x effect applied", and "Action Success" can have the action's unique flavor text
+Will need to change ApplyEffects in battle window, effect feedback only supports the value of one effect being applied
+Make certain effects like Shielded/Barrier have positions in their tags (positionEffectsTags with "EachPosition": {Tags})
+^Make sure to change description text for these actions as well
+SwapAction button in BattleWindow
+Tooltip for each entity in battle which lists all their current effects
+Change position strings and enemy targetting strings to constants in GameMenu (and future area code)
+Character skill trees
+Class for each explorable area, plus a parent Area class
+Explore window which handles exploring an area and starting battles/events, instead of the current click Battle and a battle starts
+More enemies, actions, effects
+Maybe info window with search bar and info on all effects, game mechanics, and tutorial stuff for playing the game
+Add pronouns to Entity.py and put a variable in all action descriptor messages for it
+"Action Missed": for when an action misses its target, instead of landing and having no effect
+"Attack Crit": for when an attack crits, can be a more devestating description, works well with effects that happen on crits also
+Add commented out table of contents in each class, or at least some of the longer ones like BattleWindow
+See if there is a way to add time delay between enemy turns, without the long stall and not updating time.sleep() caused
+Add failure states for some effects/abilities, ie if character is Shielded from Above then can't be slimed by Slime Bubble
